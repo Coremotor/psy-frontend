@@ -26,8 +26,6 @@ export const Profile = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
-    watch,
     reset,
   } = useForm<TUser>({
     defaultValues: formDefaultValues,

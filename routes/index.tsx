@@ -3,4 +3,5 @@ export const Routes = {
   sign_in: '/sign_in',
   sign_up: '/sign_up',
   profile: '/profile',
+  admin: '/admin',
 }
