@@ -9,10 +9,12 @@ import { roleGuard, roles } from 'app/guards'
 import { useSelector } from 'react-redux'
 import { getUser } from 'app/store/modules/profile/selectors'
 import { useRouter } from 'next/router'
+import { Article } from 'app/_pages/admin/article'
 
 const tabs = {
   users: 'users',
   articles: 'articles',
+  article: 'article',
 }
 
 export const Admin = () => {
@@ -39,9 +41,16 @@ export const Admin = () => {
         >
           Articles
         </Tab>
+        <Tab
+          activeTab={tab === tabs.article}
+          onClick={() => setTab(tabs.article)}
+        >
+          Article
+        </Tab>
       </Tabs>
       {tab === tabs.users && <Users />}
       {tab === tabs.articles && <Articles />}
+      {tab === tabs.article && <Article />}
     </Layout>
   )
 }
