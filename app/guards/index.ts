@@ -1,13 +1,20 @@
 import { TUser } from 'app/store/modules/profile/types'
 
 export const roles = {
-  USER: "USER",
-  ADMIN: "ADMIN"
+  USER: 'USER',
+  ADMIN: 'ADMIN',
 }
 
 export const roleGuard = (user: TUser | null, roles: string[]) => {
+  let access = false
+
   if (user) {
-    const coincidence = user.roles.filter(role => roles.includes(role));
-    return coincidence.length > 0;
-  } else return false
+    user.roles.forEach((role) => {
+      if (roles.includes(role)) {
+        access = true
+      }
+    })
+
+    return access
+  }
 }

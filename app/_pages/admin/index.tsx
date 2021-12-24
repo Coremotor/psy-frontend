@@ -17,7 +17,7 @@ const tabs = {
   article: 'article',
 }
 
-export const Admin = () => {
+const Admin = () => {
   const user = useSelector(getUser)
   const [tab, setTab] = useState(tabs.users)
   const router = useRouter()
@@ -58,7 +58,7 @@ export const Admin = () => {
 const Tabs = styled.div`
   display: flex;
   margin-top: 10px;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 `
 type TStyledTabs = {
   activeTab: boolean
@@ -71,3 +71,5 @@ const Tab = styled.div`
     margin-right: 10px;
   }
 `
+
+export default Admin
