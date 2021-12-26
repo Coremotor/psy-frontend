@@ -3,8 +3,9 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getUsers } from 'app/store/modules/admin/actions'
 import { getUsersFromState } from 'app/store/modules/admin/selectors'
 import styled from 'styled-components'
+import { Layout } from 'app/components/layout'
 
-export const Users = () => {
+const Users = () => {
   const dispatch = useDispatch()
   const users = useSelector(getUsersFromState)
 
@@ -13,16 +14,18 @@ export const Users = () => {
   }, [])
 
   return (
-    <Container>
+    <Layout>
       {users.map((u) => (
         <User key={u.email}>
           <Text>Email: {u.email}</Text>
           <Text>Name: {u.name}</Text>
         </User>
       ))}
-    </Container>
+    </Layout>
   )
 }
+
+export default Users
 
 const Container = styled.div`
   display: flex;

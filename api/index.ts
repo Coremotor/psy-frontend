@@ -4,10 +4,10 @@ import { errorNotify } from 'api/errors'
 import { LocalStorageTokenKey } from 'api/constants'
 
 // for SSR
-// export const requestOnServer = axios.create({
-//   baseURL: config.baseUrl,
-//   responseType: 'json',
-// })
+export const server_request = axios.create({
+  baseURL: config.baseUrl,
+  responseType: 'json',
+})
 
 export const client_request = axios.create({
   baseURL: config.baseUrl,

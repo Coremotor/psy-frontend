@@ -1,8 +1,12 @@
 import { client_request } from 'api'
 import { AppDispatch } from 'app/store/store'
 import { setIsLoading } from 'app/store/modules/loading/reducer'
-import { setCategories } from 'app/store/modules/articles/reducer'
-import { TArticle } from 'app/store/modules/articles/types'
+import {
+  setArticle,
+  setArticles,
+  setCategories,
+} from 'app/store/modules/articles/reducer'
+import { IArticle, IEditArticle } from 'app/store/modules/articles/types'
 
 export const getCategories = () => {
   return async (dispatch: AppDispatch) => {
@@ -18,11 +22,58 @@ export const getCategories = () => {
   }
 }
 
-export const addArticle = (data: TArticle) => {
+export const addArticle = (data: IArticle, resetForm: () => void) => {
   return async (dispatch: AppDispatch) => {
     dispatch(setIsLoading(true))
     try {
       await client_request.post('/add-article', data)
+      resetForm()
+    } catch (error) {
+      console.log(error)
+    } finally {
+      dispatch(setIsLoading(false))
+    }
+  }
+}
+
+export const getArticles = (category?: string) => {
+  return async (dispatch: AppDispatch) => {
+    dispatch(setIsLoading(true))
+    try {
+      const response = await client_request.get('/articles', {
+        params: {
+          category,
+        },
+      })
+      dispatch(setArticles(response.data))
+    } catch (error) {
+      console.log(error)
+    } finally {
+      dispatch(setIsLoading(false))
+    }
+  }
+}
+
+export const getArticle = (id: string | string[]) => {
+  return async (dispatch: AppDispatch) => {
+    dispatch(setIsLoading(true))
+    try {
+      const response = await client_request.get(`/articles/${id}`)
+      dispatch(setArticle(response.data))
+    } catch (error) {
+      console.log(error)
+    } finally {
+      dispatch(setIsLoading(false))
+    }
+  }
+}
+
+export const updateArticle = (id: string, data: IArticle) => {
+  return async (dispatch: AppDispatch) => {
+    dispatch(setIsLoading(true))
+    try {
+      const response = await client_request.put(`/articles/${id}`, data)
+      dispatch(setArticle(response.data))
     } catch (error) {
       console.log(error)
     } finally {
