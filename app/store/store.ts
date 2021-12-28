@@ -7,3 +7,11 @@ export const store = configureStore({
 
 export type AppDispatch = typeof store.dispatch
 export type TState = ReturnType<typeof rootReducer>
+export type TError = {
+  response: {
+    status: number
+    data: {
+      message: string
+    }
+  }
+}

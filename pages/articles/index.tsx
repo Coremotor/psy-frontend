@@ -1,4 +1,4 @@
-import { GetStaticProps, InferGetStaticPropsType, NextPage } from 'next'
+import { GetServerSideProps, InferGetServerSidePropsType, NextPage } from 'next'
 import Head from 'next/head'
 import { Articles } from 'app/_pages/articles'
 import { server_request } from 'api'
@@ -6,7 +6,7 @@ import { IArticleInList } from 'app/store/modules/articles/types'
 
 const ArticlesPage: NextPage = ({
   articles,
-}: InferGetStaticPropsType<typeof getStaticProps>) => {
+}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   return (
     <>
       <Head>
@@ -19,13 +19,16 @@ const ArticlesPage: NextPage = ({
 
 export default ArticlesPage
 
-export const getStaticProps: GetStaticProps = async () => {
-  const response = await server_request.get('/articles')
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const response = await server_request.get('/articles', {
+    params: {
+      category: context.query.category,
+    },
+  })
   const articles: IArticleInList[] = response.data
   return {
     props: {
-      articles,
+      articles: articles,
     },
-    revalidate: 60,
   }
 }

@@ -1,5 +1,5 @@
 import { client_request } from 'api'
-import { AppDispatch } from 'app/store/store'
+import { AppDispatch, TError } from 'app/store/store'
 import { setUser } from './reducer'
 import { TEditProfile, TSignInForm, TSignUpForm } from './types'
 import { setIsLoading } from 'app/store/modules/loading/reducer'
@@ -13,6 +13,11 @@ export const getProfile = () => {
       dispatch(setUser(response.data))
     } catch (error) {
       console.log(error)
+      const { response } = error as TError
+      if (response.status === 403) {
+        localStorage.removeItem(LocalStorageTokenKey)
+        dispatch(setUser(null))
+      }
     } finally {
       dispatch(setIsLoading(false))
     }

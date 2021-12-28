@@ -1,16 +1,32 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import { Home } from 'app/_pages/home'
+import { GetStaticProps, InferGetStaticPropsType } from 'next'
+import { server_request } from 'api'
+import { IArticleInList } from 'app/store/modules/articles/types'
 
-const HomePage: NextPage = () => {
+const HomePage: NextPage = ({
+  articles,
+}: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (
     <>
       <Head>
         <title>OKC web portal</title>
       </Head>
-      <Home />
+      <Home articles={articles} />
     </>
   )
 }
 
 export default HomePage
+
+export const getStaticProps: GetStaticProps = async () => {
+  const response = await server_request.get('/articles')
+  const articles: IArticleInList[] = response.data
+  return {
+    props: {
+      articles,
+    },
+    revalidate: 60,
+  }
+}
