@@ -11,7 +11,7 @@ const HomePage: NextPage = ({
   return (
     <>
       <Head>
-        <title>OKC web portal</title>
+        <title>PSY portal</title>
       </Head>
       <Home articles={articles} />
     </>
@@ -21,7 +21,12 @@ const HomePage: NextPage = ({
 export default HomePage
 
 export const getStaticProps: GetStaticProps = async () => {
-  const response = await server_request.get('/articles')
+  const response = await server_request.get('/articles', {
+    params: {
+      sortByViews: 'desc',
+      limit: 10,
+    },
+  })
   const articles: IArticleInList[] = response.data
   return {
     props: {

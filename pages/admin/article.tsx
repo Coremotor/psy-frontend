@@ -13,7 +13,7 @@ const AdminPage: NextPage = () => {
   return (
     <>
       <Head>
-        <title>Admin</title>
+        <title>Admin article</title>
       </Head>
       <AdminArticleDynamicComponent />
     </>

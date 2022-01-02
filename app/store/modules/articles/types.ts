@@ -12,6 +12,7 @@ export interface IArticle {
   previewImage: string
   isDraft: boolean
   isArchive: boolean
+  createdAt: Date
 }
 
 export interface IArticleInList extends IArticle {

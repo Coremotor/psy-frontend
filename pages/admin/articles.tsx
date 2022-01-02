@@ -6,7 +6,7 @@ const AdminArticlesPage: NextPage = () => {
   return (
     <>
       <Head>
-        <title>Profile</title>
+        <title>Admin articles</title>
       </Head>
       <Articles />
     </>

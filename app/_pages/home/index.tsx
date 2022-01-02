@@ -5,7 +5,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getProfile } from 'app/store/modules/profile/actions'
 import { getUser } from 'app/store/modules/profile/selectors'
 import { IArticleInList } from 'app/store/modules/articles/types'
-import { ArticlesBlock } from './articlesBlock'
+import { ArticlesSection } from './articlesSection'
+import { AboutSection } from 'app/_pages/home/aboutSection'
 
 type TProps = {
   articles: IArticleInList[]
@@ -26,8 +27,8 @@ export const Home: FC<TProps> = ({ articles }) => {
 
   return (
     <Layout>
-      <div>Главная</div>
-      <ArticlesBlock articles={articles} />
+      <AboutSection />
+      <ArticlesSection articles={articles} />
     </Layout>
   )
 }

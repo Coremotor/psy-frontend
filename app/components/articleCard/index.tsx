@@ -4,6 +4,8 @@ import { IArticleInList } from 'app/store/modules/articles/types'
 import Image from 'next/image'
 import { GrFormView } from '@react-icons/all-files/gr/GrFormView'
 import Link from 'next/link'
+import { format } from 'date-fns'
+import { ru } from 'date-fns/locale'
 
 type TProps = {
   article: IArticleInList
@@ -16,13 +18,23 @@ export const ArticleCard: FC<TProps> = (props: TProps) => {
       <Article key={props.article._id}>
         {props.article.categories &&
           props.article.categories.map((c) => <small key={c}>{c}</small>)}
-        <StyledImage layout="fill" src={props.article.previewImage} />
+        <StyledImage
+          layout="fill"
+          src={props.article.previewImage || 'https://via.placeholder.com/150'}
+        />
         <Title>{props.article.title}</Title>
         <Description>{props.article.description}</Description>
-        <ViewsWrapper>
-          <GrFormView />
-          <Views>{props.article.views}</Views>
-        </ViewsWrapper>
+        <Header>
+          <CreatedAt>
+            {format(new Date(props.article.createdAt), 'dd MMMM yyyy', {
+              locale: ru,
+            })}
+          </CreatedAt>
+          <ViewsWrapper>
+            <GrFormView />
+            <Views>{props.article.views}</Views>
+          </ViewsWrapper>
+        </Header>
       </Article>
     </Link>
   )
@@ -45,12 +57,17 @@ const Title = styled.h3``
 const Description = styled.span`
   margin-bottom: auto;
 `
+const Header = styled.header`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`
 const ViewsWrapper = styled.div`
-  align-self: flex-end;
   display: flex;
   align-items: center;
 `
 const Views = styled.span``
+const CreatedAt = styled.small``
 const StyledImage = styled(Image)`
   opacity: 0.5;
   z-index: -1;

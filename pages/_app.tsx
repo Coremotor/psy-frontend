@@ -10,6 +10,8 @@ import NextNprogress from 'nextjs-progressbar'
 import 'react-toastify/dist/ReactToastify.css'
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
 import '../app/styles/editor.css'
+import 'slick-carousel/slick/slick.css'
+import 'slick-carousel/slick/slick-theme.css'
 
 function MyApp({ Component, pageProps }: AppProps) {
   const themes: { [key: string]: DefaultTheme } = {
