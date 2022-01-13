@@ -9,12 +9,16 @@ type TProps = { article: IArticle }
 export const ArticlePage: FC<TProps> = ({ article }) => {
   return (
     <Layout>
-      <h2>{article.title}</h2>
-      <Text
-        dangerouslySetInnerHTML={{
-          __html: DOMPurify.sanitize(article.textHTML),
-        }}
-      />
+      {article && (
+        <>
+          <h2>{article.title}</h2>
+          <Text
+            dangerouslySetInnerHTML={{
+              __html: DOMPurify.sanitize(article.textHTML),
+            }}
+          />
+        </>
+      )}
     </Layout>
   )
 }
