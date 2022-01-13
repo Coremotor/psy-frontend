@@ -49,6 +49,7 @@ const Article = styled.article`
   position: relative;
   border: 1px solid black;
   padding: 10px;
+  //margin-bottom: 20px;
   &:hover {
     box-shadow: 0 5px 10px 2px rgba(34, 60, 80, 0.2);
   }
