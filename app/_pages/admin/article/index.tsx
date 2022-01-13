@@ -64,15 +64,17 @@ const Article = () => {
   const preview = () =>
     setHtml(draftToHtml(convertToRaw(editorState.getCurrentContent())))
 
-  const [articleState, setArticleState] = useState<IArticle>({
-    title: '',
-    description: '',
-    previewImage: '',
-    categories: [],
-    textHTML: '',
-    isDraft: false,
-    isArchive: false,
-  })
+  const [articleState, setArticleState] = useState<Omit<IArticle, 'createdAt'>>(
+    {
+      title: '',
+      description: '',
+      previewImage: '',
+      categories: [],
+      textHTML: '',
+      isDraft: false,
+      isArchive: false,
+    }
+  )
   const onInput = (
     e: React.FormEvent<HTMLTextAreaElement | HTMLInputElement>
   ) => {

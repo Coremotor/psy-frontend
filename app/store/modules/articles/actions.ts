@@ -6,7 +6,7 @@ import {
   setArticles,
   setCategories,
 } from 'app/store/modules/articles/reducer'
-import { IArticle, IEditArticle } from 'app/store/modules/articles/types'
+import { IArticle } from 'app/store/modules/articles/types'
 
 export const getCategories = () => {
   return async (dispatch: AppDispatch) => {
@@ -22,7 +22,10 @@ export const getCategories = () => {
   }
 }
 
-export const addArticle = (data: IArticle, resetForm: () => void) => {
+export const addArticle = (
+  data: Omit<IArticle, 'createdAt'>,
+  resetForm: () => void
+) => {
   return async (dispatch: AppDispatch) => {
     dispatch(setIsLoading(true))
     try {
@@ -68,7 +71,10 @@ export const getArticle = (id: string | string[]) => {
   }
 }
 
-export const updateArticle = (id: string, data: IArticle) => {
+export const updateArticle = (
+  id: string,
+  data: Omit<IArticle, 'createdAt'>
+) => {
   return async (dispatch: AppDispatch) => {
     dispatch(setIsLoading(true))
     try {
