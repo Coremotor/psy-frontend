@@ -41,7 +41,6 @@ export const getStaticProps: GetStaticProps = async (context) => {
     params: { withView: true },
   })
   const article: IArticle = response.data
-  console.log('article', article)
 
   if (!article) {
     return {
