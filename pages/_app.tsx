@@ -1,4 +1,10 @@
 import '../app/styles/globals.css'
+import 'react-toastify/dist/ReactToastify.css'
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
+import '../app/styles/editor.css'
+import 'slick-carousel/slick/slick.css'
+import 'slick-carousel/slick/slick-theme.css'
+
 import type { AppProps } from 'next/app'
 import { Provider } from 'react-redux'
 import { DefaultTheme, ThemeProvider } from 'styled-components'
@@ -7,11 +13,6 @@ import dark from 'app/styles/dark'
 import { store } from 'app/store/store'
 import { ToastContainer } from 'react-toastify'
 import NextNprogress from 'nextjs-progressbar'
-import 'react-toastify/dist/ReactToastify.css'
-import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
-import '../app/styles/editor.css'
-import 'slick-carousel/slick/slick.css'
-import 'slick-carousel/slick/slick-theme.css'
 
 function MyApp({ Component, pageProps }: AppProps) {
   const themes: { [key: string]: DefaultTheme } = {

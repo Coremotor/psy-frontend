@@ -7,6 +7,7 @@ import { getUser } from 'app/store/modules/profile/selectors'
 import { IArticleInList } from 'app/store/modules/articles/types'
 import { ArticlesSection } from './articlesSection'
 import { AboutSection } from 'app/_pages/home/aboutSection'
+import { CreateOrderSection } from 'app/_pages/home/createOrderSection'
 
 type TProps = {
   articles: IArticleInList[]
@@ -29,6 +30,7 @@ export const Home: FC<TProps> = ({ articles }) => {
     <Layout>
       <AboutSection />
       <ArticlesSection articles={articles} />
+      <CreateOrderSection />
     </Layout>
   )
 }
