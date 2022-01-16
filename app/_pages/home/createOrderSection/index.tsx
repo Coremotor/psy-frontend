@@ -3,14 +3,12 @@ import { FC } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { Input, InputWrapper, Label } from 'app/components/ui/input'
 import { Button } from 'app/components/ui/button'
-
-type TOrderForm = {
-  name: string
-  email: string
-  description: string
-}
+import { TOrderForm } from 'app/store/modules/order/types'
+import { useDispatch } from 'react-redux'
+import { createOrder } from 'app/store/modules/order/actions'
 
 export const CreateOrderSection: FC = () => {
+  const dispatch = useDispatch()
   const {
     register,
     handleSubmit,
@@ -18,7 +16,7 @@ export const CreateOrderSection: FC = () => {
   } = useForm<TOrderForm>()
 
   const onSubmit: SubmitHandler<TOrderForm> = (data) => {
-    console.log(data)
+    dispatch(createOrder(data))
   }
   return (
     <Container onSubmit={handleSubmit(onSubmit)}>
