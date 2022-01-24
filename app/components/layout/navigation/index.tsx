@@ -6,6 +6,9 @@ import { useSelector } from 'react-redux'
 import { getUser } from 'app/store/modules/profile/selectors'
 import { roleGuard, roles } from 'app/guards'
 import { CategoriesEnum } from 'app/store/modules/articles/types'
+import { getScreen } from 'app/store/modules/screen/selectors'
+import { EScreen } from 'app/store/modules/screen/types'
+import { DefaultThemeProps } from 'app/styles/types'
 
 const links = [
   { value: CategoriesEnum.aboutCats, title: 'О кошках' },
@@ -16,8 +19,9 @@ const links = [
 
 export const Navigation = () => {
   const user = useSelector(getUser)
+  const screen = useSelector(getScreen)
   return (
-    <Nav>
+    <Nav $screen={screen}>
       <Link href={Routes.home} passHref>
         <A>Главная</A>
       </Link>
@@ -53,9 +57,19 @@ export const Navigation = () => {
   )
 }
 
+type TStyledProps = {
+  $screen: string
+}
+
 const Nav = styled.nav`
   display: flex;
+  position: ${(props: TStyledProps) =>
+    props.$screen === EScreen.mobile ? 'fixed' : 'static'};
   flex-direction: column;
+  background-color: ${(props: TStyledProps & DefaultThemeProps) =>
+    props.$screen === EScreen.mobile
+      ? props.theme.background.primary
+      : 'inherit'};
 `
 const A = styled.a`
   cursor: pointer;

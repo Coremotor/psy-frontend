@@ -3,60 +3,40 @@ import { ArticleCard } from 'app/components/articleCard'
 import { Routes } from 'routes'
 import { IArticleInList } from 'app/store/modules/articles/types'
 import { FC } from 'react'
-import Slider from 'react-slick'
-import { IoIosArrowForward } from '@react-icons/all-files/io/IoIosArrowForward'
-import { IoIosArrowBack } from '@react-icons/all-files/io/IoIosArrowBack'
 
 type TProps = {
   articles: IArticleInList[]
 }
 
 export const ArticlesSection: FC<TProps> = ({ articles }) => {
-  const settings = {
-    dots: true,
-    arrows: true,
-    nextArrow: <NextArrow />,
-    prevArrow: <PrevArrow />,
-    infinite: true,
-    slidesToShow: 4,
-    speed: 500,
-    rows: 2,
-    slidesPerRow: 1,
-  }
-
   return (
-    <Container>
+    <Section>
       <h3>Most popular articles</h3>
-      <SliderContainer>
-        <Slider {...settings}>
-          {articles &&
-            articles.map((a) => (
-              <ArticleCard
-                redirectRoute={Routes.articles}
-                article={a}
-                key={a._id}
-              />
-            ))}
-        </Slider>
-      </SliderContainer>
-    </Container>
+      <Articles>
+        {articles &&
+          articles.map((a) => (
+            <Item key={a._id}>
+              <ArticleCard redirectRoute={Routes.articles} article={a} />
+            </Item>
+          ))}
+      </Articles>
+    </Section>
   )
 }
 
-const Container = styled.section`
+const Section = styled.section`
   display: flex;
   flex-direction: column;
   margin-bottom: 20px;
 `
 
-const SliderContainer = styled.section`
-  width: 860px;
-  margin: 0 auto;
+const Articles = styled.section`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin: 0 -20px -20px;
 `
-
-const NextArrow = styled(IoIosArrowForward)`
-  fill: black;
-`
-const PrevArrow = styled(IoIosArrowBack)`
-  fill: black;
+const Item = styled.div`
+  flex: 1 1 auto;
+  margin: 0 10px 20px;
 `
