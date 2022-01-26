@@ -1,36 +1,72 @@
 import { Layout } from 'app/components/layout'
-import { FC } from 'react'
+import React, { FC } from 'react'
 import { IArticleInList } from 'app/store/modules/articles/types'
 import { ArticleCard } from 'app/components/articleCard'
 import styled from 'styled-components'
 import { Routes } from 'routes'
+import { motion } from 'framer-motion'
+import { useSelector } from 'react-redux'
+import { getScreen } from 'app/store/modules/screen/selectors'
+import { EScreen } from 'app/store/modules/screen/types'
+import { AdBlock } from 'app/components/adBlock'
+
+const animation = {
+  hidden: {
+    opacity: 0,
+  },
+  visible: {
+    opacity: 1,
+    transition: {
+      duration: 0.5,
+    },
+  },
+}
 
 type TProps = {
   articles: IArticleInList[]
 }
 
 export const Articles: FC<TProps> = ({ articles }) => {
+  const screen = useSelector(getScreen)
+
   return (
     <Layout>
       <Container>
         {articles &&
           articles.map((a) => (
-            <ArticleCard
-              redirectRoute={Routes.articles}
-              article={a}
+            <Item
               key={a._id}
-            />
+              variants={animation}
+              initial="hidden"
+              animate="visible"
+              whileHover={{
+                position: 'relative',
+                zIndex: 1,
+                background: 'white',
+                scale: 1.1,
+                transition: {
+                  duration: 0.2,
+                },
+              }}
+            >
+              <ArticleCard redirectRoute={Routes.articles} article={a} />
+            </Item>
           ))}
       </Container>
+      {screen !== EScreen.desktop && <AdBlock />}
     </Layout>
   )
 }
 
 const Container = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fill, 200px);
-  justify-content: center;
-  grid-gap: 20px;
-  padding: 20px 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin: 0 -10px -10px;
   margin-bottom: 40px;
+`
+
+const Item = styled(motion.div)`
+  flex: 1 1 auto;
+  margin: 0 10px 20px;
 `

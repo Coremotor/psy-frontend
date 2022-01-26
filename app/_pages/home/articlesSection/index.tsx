@@ -3,6 +3,7 @@ import { ArticleCard } from 'app/components/articleCard'
 import { Routes } from 'routes'
 import { IArticleInList } from 'app/store/modules/articles/types'
 import { FC } from 'react'
+import { motion } from 'framer-motion'
 
 type TProps = {
   articles: IArticleInList[]
@@ -15,7 +16,18 @@ export const ArticlesSection: FC<TProps> = ({ articles }) => {
       <Articles>
         {articles &&
           articles.map((a) => (
-            <Item key={a._id}>
+            <Item
+              key={a._id}
+              whileHover={{
+                position: 'relative',
+                zIndex: 1,
+                background: 'white',
+                scale: 1.1,
+                transition: {
+                  duration: 0.2,
+                },
+              }}
+            >
               <ArticleCard redirectRoute={Routes.articles} article={a} />
             </Item>
           ))}
@@ -34,9 +46,9 @@ const Articles = styled.section`
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  margin: 0 -20px -20px;
+  margin: 0 -10px -10px;
 `
-const Item = styled.div`
+const Item = styled(motion.div)`
   flex: 1 1 auto;
   margin: 0 10px 20px;
 `

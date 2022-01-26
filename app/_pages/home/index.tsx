@@ -1,5 +1,5 @@
 import { Layout } from 'app/components/layout'
-import { FC, useEffect } from 'react'
+import React, { FC, useEffect } from 'react'
 import { LocalStorageTokenKey } from 'api/constants'
 import { useDispatch, useSelector } from 'react-redux'
 import { getProfile } from 'app/store/modules/profile/actions'
@@ -8,6 +8,9 @@ import { IArticleInList } from 'app/store/modules/articles/types'
 import { ArticlesSection } from './articlesSection'
 import { AboutSection } from 'app/_pages/home/aboutSection'
 import { CreateOrderSection } from 'app/_pages/home/createOrderSection'
+import { EScreen } from 'app/store/modules/screen/types'
+import { getScreen } from 'app/store/modules/screen/selectors'
+import { AdBlock } from 'app/components/adBlock'
 
 type TProps = {
   articles: IArticleInList[]
@@ -15,6 +18,7 @@ type TProps = {
 
 export const Home: FC<TProps> = ({ articles }) => {
   const dispatch = useDispatch()
+  const screen = useSelector(getScreen)
   const user = useSelector(getUser)
 
   useEffect(() => {
@@ -30,6 +34,7 @@ export const Home: FC<TProps> = ({ articles }) => {
     <Layout>
       <AboutSection />
       <ArticlesSection articles={articles} />
+      {screen !== EScreen.desktop && <AdBlock />}
       <CreateOrderSection />
     </Layout>
   )

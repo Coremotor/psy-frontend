@@ -1,5 +1,5 @@
 import React, { FC, useEffect } from 'react'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import { Loader } from 'app/components/loader'
 import { useDispatch, useSelector } from 'react-redux'
 import { getIsLoading } from 'app/store/modules/loading/selectors'
@@ -10,6 +10,7 @@ import { getScreen, getShowNav } from 'app/store/modules/screen/selectors'
 import { setScreen, setShowNav } from 'app/store/modules/screen/reducer'
 import { EScreen } from 'app/store/modules/screen/types'
 import { DESKTOP, TABLE } from 'app/constants'
+import { AdBlock } from '../adBlock'
 
 export const Layout: FC = ({ children }) => {
   const dispatch = useDispatch()
@@ -32,6 +33,7 @@ export const Layout: FC = ({ children }) => {
         dispatch(setShowNav(false))
       }
     }
+    resizeHandler()
     window.addEventListener('resize', resizeHandler)
 
     return function () {
@@ -46,7 +48,7 @@ export const Layout: FC = ({ children }) => {
       <Main $screen={screen}>
         {showNav && <Navigation />}
         <Content>{children}</Content>
-        <Aside>Рекламный блок</Aside>
+        {screen === EScreen.desktop && <AdBlock />}
       </Main>
       <Footer />
     </Container>
@@ -69,11 +71,27 @@ const Container = styled.div`
 const Main = styled.main`
   flex: 1 1 auto;
   display: grid;
-  grid-template-columns: ${(props: TStyledProps) =>
-    props.$screen === EScreen.mobile ? '1fr 200px' : '200px 1fr 200px'};
+
+  ${(props: TStyledProps) =>
+    props.$screen === EScreen.mobile &&
+    css({
+      gridTemplateColumns: '1fr',
+    })};
+
+  ${(props: TStyledProps) =>
+    props.$screen === EScreen.tablet &&
+    css({
+      gridTemplateColumns: '0.2fr 1fr',
+    })};
+
+  ${(props: TStyledProps) =>
+    props.$screen === EScreen.desktop &&
+    css({
+      gridTemplateColumns: '0.2fr 1fr 300px',
+    })};
+
   column-gap: 20px;
   padding: 10px;
 `
 
 const Content = styled.section``
-const Aside = styled.aside``

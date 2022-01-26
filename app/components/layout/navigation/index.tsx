@@ -1,14 +1,16 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import Link from 'next/link'
 import { Routes } from 'routes'
 import React from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { getUser } from 'app/store/modules/profile/selectors'
 import { roleGuard, roles } from 'app/guards'
 import { CategoriesEnum } from 'app/store/modules/articles/types'
 import { getScreen } from 'app/store/modules/screen/selectors'
 import { EScreen } from 'app/store/modules/screen/types'
 import { DefaultThemeProps } from 'app/styles/types'
+import { motion } from 'framer-motion'
+import { setShowNav } from 'app/store/modules/screen/reducer'
 
 const links = [
   { value: CategoriesEnum.aboutCats, title: 'О кошках' },
@@ -20,10 +22,22 @@ const links = [
 export const Navigation = () => {
   const user = useSelector(getUser)
   const screen = useSelector(getScreen)
+  const dispatch = useDispatch()
+
+  const onLinkClick = () => {
+    if (screen === EScreen.mobile) {
+      dispatch(setShowNav(false))
+    }
+  }
+
   return (
-    <Nav $screen={screen}>
+    <Nav
+      $isMobile={screen === EScreen.mobile}
+      initial={screen === EScreen.mobile && { y: -300 }}
+      animate={{ y: 0 }}
+    >
       <Link href={Routes.home} passHref>
-        <A>Главная</A>
+        <A onClick={onLinkClick}>Главная</A>
       </Link>
 
       {links.map((link) => (
@@ -35,7 +49,7 @@ export const Navigation = () => {
           }}
           passHref
         >
-          <A>{link.title}</A>
+          <A onClick={onLinkClick}>{link.title}</A>
         </Link>
       ))}
 
@@ -43,13 +57,13 @@ export const Navigation = () => {
         <Admin>
           <span>АДМИНКА</span>
           <Link href={Routes.admin_articles} passHref>
-            <A>Статьи</A>
+            <A onClick={onLinkClick}>Статьи</A>
           </Link>
           <Link href={Routes.admin_article} passHref>
-            <A>Создание статьи</A>
+            <A onClick={onLinkClick}>Создание статьи</A>
           </Link>
           <Link href={Routes.admin_users} passHref>
-            <A>Список пользователей</A>
+            <A onClick={onLinkClick}>Список пользователей</A>
           </Link>
         </Admin>
       )}
@@ -58,18 +72,23 @@ export const Navigation = () => {
 }
 
 type TStyledProps = {
-  $screen: string
+  $isMobile: boolean
 }
 
-const Nav = styled.nav`
+const Nav = styled(motion.nav)`
   display: flex;
-  position: ${(props: TStyledProps) =>
-    props.$screen === EScreen.mobile ? 'fixed' : 'static'};
+  position: ${(props: TStyledProps) => (props.$isMobile ? 'fixed' : 'static')};
   flex-direction: column;
   background-color: ${(props: TStyledProps & DefaultThemeProps) =>
-    props.$screen === EScreen.mobile
-      ? props.theme.background.primary
-      : 'inherit'};
+    props.$isMobile ? props.theme.background.primary : 'inherit'};
+  z-index: 100;
+
+  ${(props: TStyledProps) =>
+    props.$isMobile &&
+    css({
+      width: '100%',
+      alignItems: 'center',
+    })};
 `
 const A = styled.a`
   cursor: pointer;

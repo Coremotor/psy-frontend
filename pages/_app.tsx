@@ -13,8 +13,21 @@ import dark from 'app/styles/dark'
 import { store } from 'app/store/store'
 import { ToastContainer } from 'react-toastify'
 import NextNprogress from 'nextjs-progressbar'
+import { motion } from 'framer-motion'
 
-function MyApp({ Component, pageProps }: AppProps) {
+const variants = {
+  hidden: {
+    opacity: 0,
+  },
+  visible: {
+    opacity: 1,
+    transition: {
+      duration: 0.5,
+    },
+  },
+}
+
+function MyApp({ Component, pageProps, router }: AppProps) {
   const themes: { [key: string]: DefaultTheme } = {
     light: light,
     dark: dark,
@@ -22,7 +35,14 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <Provider store={store}>
       <ThemeProvider theme={themes.light}>
-        <Component {...pageProps} />
+        <motion.div
+          key={router.route}
+          variants={variants}
+          initial="hidden"
+          animate="visible"
+        >
+          <Component {...pageProps} />
+        </motion.div>
         <NextNprogress
           options={{
             showSpinner: false,

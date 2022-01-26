@@ -313,8 +313,3 @@ const Example = styled.div`
   padding: 10px;
   margin: 10px auto;
 `
-
-// https://psy-files.tmweb.ru/images/dogs/dog_1.jpeg
-// https://psy-files.tmweb.ru/images/cats/cat_1.jpeg
-// https://psy-files.tmweb.ru/images/fish/fish_1.jpeg
-// https://psy-files.tmweb.ru/images/spiders/spider_1.jpeg
